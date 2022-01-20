@@ -34,7 +34,7 @@ func (rc *RcfgClient) Get(db string, key string) (string, error) {
 	k := mergeDbAndKey(db, key)
 	v, ok := rc.localCache[k]
 	if !ok || time.Since(v.LastUpdated) > rc.CacheFor {
-		resp, err := http.Get(rc.Url + fmt.Sprintf("/%s?k=%s", db, key))
+		resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/get?k=%s", db, key))
 		if err != nil {
 			return "", err
 		}
@@ -48,4 +48,30 @@ func (rc *RcfgClient) Get(db string, key string) (string, error) {
 	} else {
 		return v.Value, nil
 	}
+}
+
+func (rc *RcfgClient) Set(db string, key string, value string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/set?k=%s&v=%s", db, key, value))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
+}
+
+func (rc *RcfgClient) SetWithTTL(db string, key string, value string, ttl string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/setttl?k=%s&v=%s&ttl=%s", db, key, value, ttl))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
 }
