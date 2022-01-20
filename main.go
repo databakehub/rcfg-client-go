@@ -30,6 +30,19 @@ func mergeDbAndKey(db string, key string) string {
 	return db + "|" + key
 }
 
+func (rc *RcfgClient) Add(db string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/add", db))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
+}
+
 func (rc *RcfgClient) Get(db string, key string) (string, error) {
 	k := mergeDbAndKey(db, key)
 	v, ok := rc.localCache[k]
