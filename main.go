@@ -51,14 +51,14 @@ func (rc *RcfgClient) Get(db string, key string) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		if resp.StatusCode != 200 {
-			return "", fmt.Errorf("%s", resp.Status)
-		}
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return "", err
 		}
 		bodyString := string(body)
+		if resp.StatusCode != 200 {
+			return "", fmt.Errorf("%s: %s", resp.Status, bodyString)
+		}
 		rc.localCache[k] = &lastUpdated{Value: bodyString, LastUpdated: time.Now()}
 		return bodyString, nil
 	} else {
