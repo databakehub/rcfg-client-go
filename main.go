@@ -51,6 +51,9 @@ func (rc *RcfgClient) Get(db string, key string) (string, error) {
 		if err != nil {
 			return "", err
 		}
+		if resp.StatusCode != 200 {
+			return "", fmt.Errorf("%s", resp.Status)
+		}
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return "", err
