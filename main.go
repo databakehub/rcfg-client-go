@@ -3,7 +3,6 @@ package client
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"time"
 )
@@ -48,7 +47,7 @@ func (rc *RcfgClient) Get(db string, key string) (string, error) {
 	k := mergeDbAndKey(db, key)
 	v, ok := rc.localCache[k]
 	if !ok || time.Since(v.LastUpdated) > rc.CacheFor {
-		log.Println("Cache miss")
+		// log.Println("Cache miss")
 		resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/get?k=%s", db, key))
 		if err != nil {
 			return "", err
@@ -58,13 +57,14 @@ func (rc *RcfgClient) Get(db string, key string) (string, error) {
 			return "", err
 		}
 		bodyString := string(body)
-		log.Println("Get result:", bodyString)
+		// log.Println("Get result:", bodyString)
 		if resp.StatusCode != 200 {
-			return "", fmt.Errorf("%s: %s", resp.Status, bodyString)
+			return "", fmt.Errorf(bodyString)
 		}
 		rc.localCache[k] = &lastUpdated{Value: bodyString, LastUpdated: time.Now()}
 		return bodyString, nil
 	} else {
+		// log.Println("Cache hit")
 		return v.Value, nil
 	}
 }
