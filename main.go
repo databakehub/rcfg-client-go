@@ -94,3 +94,95 @@ func (rc *RcfgClient) SetWithTTL(db string, key string, value string, ttl string
 	bodyString := string(body)
 	return bodyString, nil
 }
+
+// DAG
+func (rc *RcfgClient) Deps(db string, key string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/deps?k=%s", db, key))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
+}
+
+func (rc *RcfgClient) AllDeps(db string, key string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/alldeps?k=%s", db, key))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
+}
+
+func (rc *RcfgClient) AddDepOk(db string, key string, dep string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/adddepok?k=%s&dep=%s", db, key, dep))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
+}
+
+func (rc *RcfgClient) AddDep(db string, key string, dep string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/adddep?k=%s&dep=%s", db, key, dep))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
+}
+
+func (rc *RcfgClient) RemoveDep(db string, key string, dep string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/remdep?k=%s&dep=%s", db, key, dep))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
+}
+
+func (rc *RcfgClient) DepOnBy(db string, key string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/deponby?k=%s", db, key))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
+}
+
+func (rc *RcfgClient) AllDepOnBy(db string, key string) (string, error) {
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/alldeponby?k=%s", db, key))
+	if err != nil {
+		return "", err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	bodyString := string(body)
+	return bodyString, nil
+}
