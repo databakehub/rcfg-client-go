@@ -123,7 +123,7 @@ func (rc *RcfgClient) AllDeps(db string, key string) (string, error) {
 }
 
 func (rc *RcfgClient) AddDepOk(db string, key string, dep string) (string, error) {
-	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/adddepok?k=%s&dep=%s", db, key, dep))
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/adddepok?k=%s&v=%s", db, key, dep))
 	if err != nil {
 		return "", err
 	}
@@ -136,7 +136,7 @@ func (rc *RcfgClient) AddDepOk(db string, key string, dep string) (string, error
 }
 
 func (rc *RcfgClient) AddDep(db string, key string, dep string) (string, error) {
-	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/adddep?k=%s&dep=%s", db, key, dep))
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/adddep?k=%s&v=%s", db, key, dep))
 	if err != nil {
 		return "", err
 	}
@@ -149,7 +149,7 @@ func (rc *RcfgClient) AddDep(db string, key string, dep string) (string, error) 
 }
 
 func (rc *RcfgClient) RemoveDep(db string, key string, dep string) (string, error) {
-	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/remdep?k=%s&dep=%s", db, key, dep))
+	resp, err := http.Get(rc.Url + fmt.Sprintf("/%s/remdep?k=%s&v=%s", db, key, dep))
 	if err != nil {
 		return "", err
 	}
